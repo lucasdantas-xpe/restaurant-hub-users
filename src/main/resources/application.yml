@@ -11,3 +11,7 @@ spring:
       mode: always
 management:
   endpoints.web.exposure.include: health, info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
