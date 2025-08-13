@@ -1,0 +1,24 @@
+{
+  "info": { "name": "Restaurant Hub Users API", "_postman_id": "xxxx", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "item": [
+    {
+      "name": "Create User - success",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "http://localhost:8080/api/v1/users", "host": ["localhost"], "port": "8080", "path": ["api","v1","users"] },
+        "body": { "mode": "raw", "raw": "{\"name\":\"Ana\",\"email\":\"ana@example.com\",\"login\":\"ana\",\"password\":\"123\",\"role\":\"CLIENT\"}" }
+      },
+      "response": []
+    },
+    {
+      "name": "Login - failure (generic error)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "http://localhost:8080/api/v1/auth/login", "host": ["localhost"], "port": "8080", "path": ["api","v1","auth","login"] },
+        "body": { "mode": "raw", "raw": "{\"login\":\"ana\",\"password\":\"wrong\"}" }
+      }
+    }
+  ]
+}
