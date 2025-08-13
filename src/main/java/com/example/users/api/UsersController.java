@@ -24,7 +24,6 @@ public class UsersController {
   @ResponseStatus(HttpStatus.CREATED)
   public UserResponse create(@Valid @RequestBody UserRequest req) {
     User u = mapper.toEntity(req);
-    u.setPasswordHash(req.password()); // will be hashed in the service
     return mapper.toResponse(service.create(u));
   }
 

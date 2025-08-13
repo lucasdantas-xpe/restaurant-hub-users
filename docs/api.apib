@@ -8,6 +8,16 @@ FORMAT: 1A
 + Response 201 (application/json)
     + Attributes (UserResponse)
 
+# Group Auth
+## Login [POST /api/v1/auth/login]
++ Request (application/json)
+    + Attributes (LoginRequest)
++ Response 200 (application/json)
+    + Attributes
+        + authenticated: true (boolean)
++ Response 401 (application/json)
+    + Attributes (ErrorResponse)
+
 # Data Structures
 ## UserRequest (object)
 + name: John Doe (string, required)
@@ -15,3 +25,10 @@ FORMAT: 1A
 + login: jdoe (string, required)
 + password: s3cret (string, required)
 + role: CLIENT (enum[string])
+
+## LoginRequest (object)
++ login: jdoe (string, required)
++ password: s3cret (string, required)
+
+## ErrorResponse (object)
++ error: Invalid credentials (string)

@@ -20,7 +20,9 @@ paths:
     post:
       summary: Fake login
       requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/LoginRequest' }}}}
-      responses: { "200": { description: OK }}
+      responses:
+        "200": { description: OK }
+        "401": { description: Unauthorized }
 
   /api/v1/auth/users/{id}/change-password:
     post:
