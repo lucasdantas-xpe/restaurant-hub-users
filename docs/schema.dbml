@@ -1,0 +1,11 @@
+Table users {
+  id uuid [pk]
+  name varchar(120)
+  email varchar(160) [unique]
+  login varchar(60) [unique]
+  password_hash varchar(100)
+  address varchar(200)
+  role varchar(16)
+  last_modified_at timestamp
+  active boolean
+}

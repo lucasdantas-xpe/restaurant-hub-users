@@ -1,0 +1,17 @@
+FORMAT: 1A
+# Restaurant Hub - Users API
+
+# Group Users
+## Create User [POST /api/v1/users]
++ Request (application/json)
+    + Attributes (UserRequest)
++ Response 201 (application/json)
+    + Attributes (UserResponse)
+
+# Data Structures
+## UserRequest (object)
++ name: John Doe (string, required)
++ email: john@example.com (string, required)
++ login: jdoe (string, required)
++ password: s3cret (string, required)
++ role: CLIENT (enum[string])

@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info: { title: Restaurant Hub - Users API, version: "0.1.0" }
+servers: [{ url: http://localhost:8080 }]
+paths:
+  /api/v1/users:
+    post:
+      summary: Create user
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/UserRequest' } }}}
+      responses: { "201": { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/UserResponse' }}}}}
+    get:
+      summary: List users
+      responses: { "200": { description: OK }}
+
+  /api/v1/users/{id}:
+    get: { summary: Get user, parameters: [{ in: path, name: id, required: true, schema: { type: string, format: uuid }}], responses: { "200": { description: OK }}}
+    put: { summary: Update user, parameters: [{ in: path, name: id, required: true, schema: { type: string, format: uuid }}], requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/UserRequest' }}}}, responses: { "200": {}}}
+    delete: { summary: Delete user, parameters: [{ in: path, name: id, required: true, schema: { type: string, format: uuid }}], responses: { "204": {}}}
+
+  /api/v1/auth/login:
+    post:
+      summary: Fake login
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/LoginRequest' }}}}
+      responses: { "200": { description: OK }}
+
+  /api/v1/auth/users/{id}/change-password:
+    post:
+      summary: Change password
+      parameters: [{ in: path, name: id, required: true, schema: { type: string, format: uuid }}]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ChangePasswordRequest' }}}}
+      responses: { "204": { description: No Content }}
+
+components:
+  schemas:
+    Role: { type: string, enum: [CLIENT, OWNER] }
+    UserRequest:
+      type: object
+      required: [name,email,login,password,role]
+      properties:
+        name: { type: string }
+        email: { type: string, format: email }
+        login: { type: string }
+        password: { type: string }
+        address: { type: string }
+        role: { $ref: '#/components/schemas/Role' }
+    UserResponse:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string }
+        login: { type: string }
+        address: { type: string }
+        role: { $ref: '#/components/schemas/Role' }
+    LoginRequest:
+      type: object
+      required: [login, password]
+      properties:
+        login: { type: string }
+        password: { type: string }
+    ChangePasswordRequest:
+      type: object
+      required: [currentPassword, newPassword, confirmPassword]
+      properties:
+        currentPassword: { type: string }
+        newPassword: { type: string }
+        confirmPassword: { type: string }
