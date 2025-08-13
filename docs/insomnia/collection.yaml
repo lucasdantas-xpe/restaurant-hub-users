@@ -1,0 +1,305 @@
+_type: export
+__export_format: 4
+__export_date: 2025-08-12T23:59:00.000Z
+__export_source: insomnia.desktop.app:v8.6.1
+resources:
+  # Workspace
+  - _id: wrk_restaurant_hub
+    parentId: null
+    modified: 0
+    created: 0
+    name: Restaurant Hub Users API
+    description: Collection Insomnia para CRUD de usuários, login e troca de senha.
+    scope: collection
+    _type: workspace
+
+  # Environment (base_url e user_id)
+  - _id: env_base
+    parentId: wrk_restaurant_hub
+    modified: 0
+    created: 0
+    name: Base Environment
+    data:
+      base_url: http://localhost:8080
+      user_id: 00000000-0000-0000-0000-000000000000
+    dataPropertyOrder:
+      "&":
+        - base_url
+        - user_id
+    color: null
+    isPrivate: false
+    metaSortKey: 0
+    _type: environment
+
+  # Folders (grupos)
+  - _id: fld_users
+    parentId: wrk_restaurant_hub
+    modified: 0
+    created: 0
+    name: Users
+    _type: request_group
+
+  - _id: fld_auth
+    parentId: wrk_restaurant_hub
+    modified: 0
+    created: 0
+    name: Auth
+    _type: request_group
+
+  # -------- USERS --------
+  # Create - success
+  - _id: req_users_create_success
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users"
+    name: Create User - success
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "name": "Ana",
+          "email": "ana@example.com",
+          "login": "ana",
+          "password": "123",
+          "address": "Av. Central, 100",
+          "role": "CLIENT"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Create - failure (invalid email)
+  - _id: req_users_create_failure_invalid
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users"
+    name: Create User - failure (invalid email)
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "name": "Ana",
+          "email": "not-an-email",
+          "login": "ana",
+          "password": "123",
+          "role": "CLIENT"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # List users
+  - _id: req_users_list
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users"
+    name: List Users
+    method: GET
+    headers: []
+    authentication: {}
+    _type: request
+
+  # Get by id - success
+  - _id: req_users_get_success
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users/{{ _.user_id }}"
+    name: Get User - success
+    method: GET
+    headers: []
+    authentication: {}
+    _type: request
+
+  # Get by id - failure (not found)
+  - _id: req_users_get_not_found
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users/11111111-1111-1111-1111-111111111111"
+    name: Get User - failure (not found)
+    method: GET
+    headers: []
+    authentication: {}
+    _type: request
+
+  # Update - success
+  - _id: req_users_update_success
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users/{{ _.user_id }}"
+    name: Update User - success
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "name": "Ana Maria",
+          "email": "ana.maria@example.com",
+          "login": "ana",
+          "password": "ignored-on-update",
+          "address": "Rua Nova, 200",
+          "role": "CLIENT"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Update - failure (validation)
+  - _id: req_users_update_failure_validation
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users/{{ _.user_id }}"
+    name: Update User - failure (missing name)
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "name": "",
+          "email": "ana@example.com",
+          "login": "ana",
+          "password": "ignored-on-update",
+          "role": "CLIENT"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Delete - success
+  - _id: req_users_delete_success
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users/{{ _.user_id }}"
+    name: Delete User - success
+    method: DELETE
+    headers: []
+    authentication: {}
+    _type: request
+
+  # Delete - failure (not found)
+  - _id: req_users_delete_not_found
+    parentId: fld_users
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/users/22222222-2222-2222-2222-222222222222"
+    name: Delete User - failure (not found)
+    method: DELETE
+    headers: []
+    authentication: {}
+    _type: request
+
+  # -------- AUTH --------
+  # Login - success (precisa ter criado o user antes)
+  - _id: req_auth_login_success
+    parentId: fld_auth
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/auth/login"
+    name: Login - success
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "login": "ana",
+          "password": "123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Login - failure (mensagem genérica)
+  - _id: req_auth_login_failure
+    parentId: fld_auth
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/auth/login"
+    name: Login - failure (generic error)
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "login": "ana",
+          "password": "wrong"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Change password - success
+  - _id: req_auth_change_pwd_success
+    parentId: fld_auth
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/auth/users/{{ _.user_id }}/change-password"
+    name: Change Password - success
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "currentPassword": "123",
+          "newPassword": "abc123",
+          "confirmPassword": "abc123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Change password - failure (current password wrong)
+  - _id: req_auth_change_pwd_failure
+    parentId: fld_auth
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/api/v1/auth/users/{{ _.user_id }}/change-password"
+    name: Change Password - failure (wrong current password)
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "currentPassword": "WRONG",
+          "newPassword": "newpass",
+          "confirmPassword": "newpass"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    _type: request
+
+  # Healthcheck (Actuator)
+  - _id: req_health
+    parentId: wrk_restaurant_hub
+    modified: 0
+    created: 0
+    url: "{{ _.base_url }}/actuator/health"
+    name: Healthcheck
+    method: GET
+    headers: []
+    authentication: {}
+    _type: request
